@@ -9,10 +9,12 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+
 import {
   CreateDishDto,
   UpdateDishDto,
 } from '../../core/common/dishes/interface/dto/dishes.dto';
+import { Dish } from '../../core/common/dishes/interface/entity/dishes.entity';
 import { DishesService } from './dishes.service';
 
 @ApiTags('api/v1/dishes')
@@ -21,23 +23,19 @@ export class DishesController {
   constructor(private dishesService: DishesService) {}
 
   @Post('/dishes')
-  create(@Body() payload: CreateDishDto) {
+  async create(@Body() payload: CreateDishDto): Promise<Dish> {
     return this.dishesService.create(payload);
   }
 
   @Get('/dishes')
   @ApiOperation({ summary: 'List of dishes' })
-  getDishes(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string,
-  ) {
+  async getDishes(): Promise<Dish[]> {
     return this.dishesService.getAll();
   }
 
   @Get('/dishes/:id')
-  getOne(@Param('id') id: number) {
-    return this.dishesService.findOne(id);
+  async getOne(@Param('id') id: string): Promise<Dish> {
+    return await this.dishesService.getById(+id);
   }
 
   @Put('/dishes/:id')
@@ -46,7 +44,7 @@ export class DishesController {
   }
 
   @Delete('/dishes/:id')
-  delete(@Param('id') id: number) {
-    return this.dishesService.remove(id);
+  async delete(@Param('id') id: number) {
+    return await this.dishesService.remove(id);
   }
 }

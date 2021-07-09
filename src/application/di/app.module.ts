@@ -1,9 +1,18 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpModule  } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { DishesModule } from '../dishes/dishes.module';
+
 import ApiServerConfig from '../../infrastructure/config/environment-config/ApiServerConfig';
 import * as Joi from 'joi';
 import { TypeOrmConfigModule } from '../../infrastructure/config/typeorm/typeorm-config.module';
+
+import { DishesModule } from '../dishes/dishes.module';
+import { OrdersModule } from '../../application/orders/orders.module';
+
+import { OrderService } from '../../application/orders/orders.service';
+import { OrdersController } from '../../application/orders/orders.controller';
+
+import { DishesController } from '../../application/dishes/dishes.controller';
+import { DishesService } from '../../application/dishes/dishes.service';
 
 @Module({
   imports: [
@@ -17,7 +26,9 @@ import { TypeOrmConfigModule } from '../../infrastructure/config/typeorm/typeorm
       }),
     }),
     DishesModule,
+    OrdersModule,
+    HttpModule,
     TypeOrmConfigModule,
-  ],
+  ]
 })
 export class AppModule {}

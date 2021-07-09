@@ -4,12 +4,15 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
-@Entity()
+import { Order } from '../../../orders/interface/entity/orders.entity';
+
+@Entity('dishes')
 export class Dish {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 255 })
   title: string;
@@ -31,4 +34,7 @@ export class Dish {
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @OneToMany(() => Order, (order) => order.dish)
+  order: Order[];
 }

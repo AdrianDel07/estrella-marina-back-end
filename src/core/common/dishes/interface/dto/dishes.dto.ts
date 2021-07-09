@@ -11,27 +11,31 @@ import { PartialType, ApiProperty } from '@nestjs/swagger';
 export class CreateDishDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ description: `dishes's name` })
+  @ApiProperty()
   readonly title: string;
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   readonly description: string;
 
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()
   @Min(1)
+  @ApiProperty()
   readonly price: number;
 
   @IsUrl()
   @IsNotEmpty()
+  @ApiProperty()
   readonly image: string;
 
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()
   @Min(1)
+  @ApiProperty()
   readonly group: number;
 }
 
